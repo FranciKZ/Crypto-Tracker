@@ -28,6 +28,10 @@ class CoinList extends Component {
         }, 180000);
     }
 
+    // Method: fetchCoins
+    // Purpose: Use the API client object to fetch coin data
+    // Side effects: Updates state object and state properties
+    // Errors: Creates an alert pop to let the user know there was an issue
     fetchCoins() {
         this.setState({
             loading: true,
@@ -63,6 +67,9 @@ class CoinList extends Component {
         clearInterval(this.interval);
     }
 
+    // Method: createAlert
+    // Purpose: Generic method to abstract creating an alert out of the other methods
+    //          to cut back on repetitive code.
     createAlert(title, message, buttons) {
         Alert.alert(
             title,
@@ -73,6 +80,10 @@ class CoinList extends Component {
         );
     }
 
+    // Method: _onRefresh
+    // Purpose: This is a method to handle when the FlatList is refreshed
+    //          by pulling down on the list in the app.
+    // Side effects: Calls fetchCoins which will modify the state property.
     _onRefresh() {
         let timeDif = new Date().getTime() - this.state.lastUpdate;
 
@@ -98,6 +109,9 @@ class CoinList extends Component {
 
     _keyExtractor = (item) => item.id.toString();
 
+    // Method: filterSearch
+    // Purpose: Allows filtering based on text box input from the user
+    // Side effects: Updates the state object and it's properties
     filterSearch = text => {
         const newData = this.coins.filter(item => {
             const itemData = `${item.name.toUpperCase()} 
@@ -111,6 +125,9 @@ class CoinList extends Component {
         this.setState({ coins: newData });
     }
 
+    // Method: filterCategory
+    // Purpose: Allows filtering based on category selection from drop down menu
+    // Side effects: Updates the state object and it's properties
     filterCategory = (value, index) => {
         const newData = this.coins.sort((a, b) => {
             switch (value) {
@@ -133,6 +150,7 @@ class CoinList extends Component {
         });
     }
 
+    // Renders the header of the flat list to show the search box and category selector
     renderHeader = () => {
         return (
             <View style={{ flexDirection: "row" }}>
